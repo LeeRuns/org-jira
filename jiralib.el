@@ -1,6 +1,6 @@
 ;;; jiralib.el -- Provide connectivity to JIRA SOAP/REST services.
 
-;; Copyright (C) 2016,2017 Matthew Carter <m@ahungry.com>
+;; Copyright (C) 2016-2022 Matthew Carter <m@ahungry.com>
 ;; Copyright (C) 2011 Bao Haojun
 ;; original Copyright (C) 2009 Alex Harsanyi
 
@@ -266,8 +266,7 @@ After a successful login, store the authentication token in
                                                      jiralib-host)
                                              ;; secrets.el wouldn’t accept a number.
                                              :port (list (number-to-string (url-port (url-generic-parse-url jiralib-url)))
-							 (url-port (url-generic-parse-url jiralib-url))
-							 (url-type (url-generic-parse-url jiralib-url)))
+                                                         (url-type (url-generic-parse-url jiralib-url)))
                                              :require '(:user :secret)
                                              :create t)))
            user secret)

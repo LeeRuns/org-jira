@@ -5,6 +5,42 @@
 
 Use Jira in Emacs org-mode.
 
+Sample of an org-jira buffer with a ticket synced using the
+`org-jira-get-issues-from-custom-jql` functionality:
+
+```org
+* AHU-Tickets
+** TODO [#C] a sample ticket with priority, in my AHU project           :AHU_39:
+:PROPERTIES:
+:assignee: Matthew Carter
+:filename: this-years-work
+:reporter: Matthew Carter
+:type:     Story
+:priority: Medium
+:status:   To Do
+:created:  2019-01-24T23:24:54.321-0500
+:updated:  2021-07-19T18:40:30.722-0400
+:ID:       AHU-39
+:CUSTOM_ID: AHU-39
+:type-id:  10100
+:END:
+:LOGBOOK:
+CLOCK: [2022-02-24 Thu 20:30]--[2022-02-24 Thu 20:35] =>  0:05
+  :id: 10359
+  Sample time clock entry
+:END:
+*** description: [[https://example.atlassian.net/browse/AHU-39][AHU-39]]
+  The summary is here
+*** Comment: Matthew Carter
+:PROPERTIES:
+:ID:       10680
+:created:  2019-01-24T23:25:19.455-0500
+:updated:  2019-01-24T23:27:36.125-0500
+:END:
+  a sample comment on 39
+
+```
+
 ## TOC
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
@@ -197,6 +233,24 @@ https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-
 The self-hosted version of Jira appears to still support Basic Authentication with a user password:
 
 https://developer.atlassian.com/server/jira/platform/basic-authentication/
+
+#### Using Bearer authentication with Personal Access Tokens
+
+Some JIRA instances might require usage of Authorization headers using Bearer
+tokens as documented in [Using
+PATs](https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html#UsingPersonalAccessTokens-UsingPATs)
+Atlassian documentation.
+
+As documented, PATs should be used without a username in Authorization header as
+Bearer tokens. Following is an example of using PAT token stored in `authinfo`
+to authenticate to JIRA:
+
+```lisp
+(setq jiralib-token
+    (cons "Authorization"
+          (concat "Bearer " (auth-source-pick-first-password
+              :host "jira.company.com"))))
+```
 
 #### Last Resort Authorization workaround (NOT secure)
 However, if all else fails (your Jira instance has disabled basic auth
